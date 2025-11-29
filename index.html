@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProResume | Premium Resume Builder</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lato:wght@300;400;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-gradient"></div>
+    <div class="bg-blur"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>ProResume</span>
+        </div>
+        <div class="nav-actions">
+            <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button id="reset-btn" class="btn-secondary">
+                <i class="fa-solid fa-rotate-right"></i> Reset
+            </button>
+            <button id="download-word-btn" class="btn-secondary">
+                <i class="fa-solid fa-file-word"></i> Word
+            </button>
+            <button id="download-btn" class="btn-primary">
+                <i class="fa-solid fa-file-pdf"></i> PDF
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <main class="app-container">
+        <!-- Left Panel: Editor -->
+        <section class="editor-panel">
+            <div class="editor-header">
+                <h1>Build Your Resume</h1>
+                <p>Fill in the details below to generate your professional resume.</p>
+            </div>
+
+            <!-- Template Selector -->
+            <div class="template-selector">
+                <h3>Select Template</h3>
+                <div class="template-options">
+                    <div class="template-card active" data-template="tech">
+                        <div class="preview-box">
+                            <i class="fa-solid fa-code"></i>
+                        </div>
+                        <span>Tech ATS</span>
+                    </div>
+                    <div class="template-card" data-template="modern">
+                        <div class="preview-box">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <span>Modern Clean</span>
+                    </div>
+                    <div class="template-card" data-template="minimal">
+                        <div class="preview-box">
+                            <i class="fa-solid fa-feather"></i>
+                        </div>
+                        <span>Minimal</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <form id="resume-form" class="resume-form">
+                <!-- Personal Info -->
+                <div class="form-section" id="section-personal">
+                    <div class="section-header">
+                        <i class="fa-solid fa-user"></i>
+                        <h2>Personal Information</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="fullName" placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" placeholder="+1 234 567 890">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address" placeholder="City, Country">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Links (Portfolio / LinkedIn / GitHub)</label>
+                            <input type="text" name="links" placeholder="linkedin.com/in/johndoe | github.com/johndoe">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="form-section" id="section-summary">
+                    <div class="section-header">
+                        <i class="fa-solid fa-align-left"></i>
+                        <h2>Professional Summary</h2>
+                    </div>
+                    <div class="form-group full-width">
+                        <textarea name="summary" rows="4"
+                            placeholder="Experienced software engineer with a passion for..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Education -->
+                <div class="form-section" id="section-education">
+                    <div class="section-header">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h2>Education</h2>
+                        <button type="button" class="btn-add" onclick="addEducation()">+ Add</button>
+                    </div>
+                    <div id="education-list" class="dynamic-list">
+                        <!-- Dynamic Items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="form-section" id="section-experience">
+                    <div class="section-header">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <h2>Work Experience</h2>
+                        <button type="button" class="btn-add" onclick="addExperience()">+ Add</button>
+                    </div>
+                    <div id="experience-list" class="dynamic-list">
+                        <!-- Dynamic Items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-section" id="section-skills">
+                    <div class="section-header">
+                        <i class="fa-solid fa-code"></i>
+                        <h2>Skills</h2>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Technical Skills (comma separated)</label>
+                            <textarea name="technicalSkills" rows="2"
+                                placeholder="JavaScript, React, Node.js, Python..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Soft Skills (comma separated)</label>
+                            <textarea name="softSkills" rows="2"
+                                placeholder="Leadership, Communication, Problem Solving..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="form-section" id="section-projects">
+                    <div class="section-header">
+                        <i class="fa-solid fa-rocket"></i>
+                        <h2>Projects</h2>
+                        <button type="button" class="btn-add" onclick="addProject()">+ Add</button>
+                    </div>
+                    <div id="projects-list" class="dynamic-list">
+                        <!-- Dynamic Items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Certifications -->
+                <div class="form-section" id="section-certifications">
+                    <div class="section-header">
+                        <i class="fa-solid fa-certificate"></i>
+                        <h2>Certifications</h2>
+                        <button type="button" class="btn-add" onclick="addCertification()">+ Add</button>
+                    </div>
+                    <div id="certifications-list" class="dynamic-list">
+                        <!-- Dynamic Items will be added here -->
+                    </div>
+                </div>
+
+                <!-- Custom Section -->
+                <div class="form-section" id="section-custom">
+                    <div class="section-header">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <h2>Custom Section</h2>
+                        <button type="button" class="btn-add" onclick="addCustomSection()">+ Add Section</button>
+                    </div>
+                    <div id="custom-sections-list" class="dynamic-list">
+                        <!-- Dynamic Items will be added here -->
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- Footer -->
+            <footer class="editor-footer">
+                <div class="footer-content">
+                    <p>&copy; 2025 ProResume. All rights reserved.</p>
+                    <p class="developer-credit">Designed & Developed by <a
+                            href="https://www.linkedin.com/in/ashwani-rai2220/" target="_blank" class="dev-link">Ashwani
+                            Rai</a></p>
+                    <div class="social-links">
+                        <a href="https://github.com/ashurai1" target="_blank" title="GitHub"><i
+                                class="fa-brands fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/ashwani-rai2220/" target="_blank" title="LinkedIn"><i
+                                class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://github.com/ashurai1" target="_blank" title="Portfolio"><i
+                                class="fa-solid fa-globe"></i></a>
+                    </div>
+                </div>
+            </footer>
+        </section>
+
+        <!-- Right Panel: Preview -->
+        <section class="preview-panel">
+            <div class="preview-header">
+                <span>Live Preview</span>
+                <div class="zoom-controls">
+                    <button onclick="zoomOut()"><i class="fa-solid fa-minus"></i></button>
+                    <span id="zoom-level">100%</span>
+                    <button onclick="zoomIn()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="resume-container-wrapper">
+                <div id="resume-preview" class="resume-preview tech-template">
+                    <!-- Resume Content Rendered Here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/pdf.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
