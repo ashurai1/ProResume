@@ -52,11 +52,11 @@ ResumeBuilder/
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/ashurai1/ResumeBuilder.git
+    git clone https://github.com/ashurai1/ProResume.git
     ```
 2.  **Navigate to the project directory**:
     ```bash
-    cd ResumeBuilder
+    cd ProResume
     ```
 3.  **Open `index.html`** in your web browser.
     -   You can simply double-click the file or use a live server extension (recommended for best experience).
